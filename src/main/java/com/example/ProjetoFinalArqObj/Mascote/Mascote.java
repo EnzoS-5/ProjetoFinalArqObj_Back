@@ -37,7 +37,7 @@ public class Mascote {
     public static @NonNull Mascote toModel(int user_id) {
         Mascote mascote = new Mascote();
         mascote.setHp(200);
-        mascote.setUser(new User("","","",""));//User.findUser(user_id)); ainda nao feito
+        mascote.setUser(new User("","","",0));//User.findUser(user_id)); ainda nao feito
         mascote.setCheck(true);
         return mascote;
 

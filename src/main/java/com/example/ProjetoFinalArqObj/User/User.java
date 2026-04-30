@@ -1,16 +1,35 @@
 package com.example.ProjetoFinalArqObj.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
 public class User {
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private int xp;
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
     private int streak;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @JsonIgnore
     private String senha;
 
-    public User(String nome, String email, String senha, String id){
+    public User(String nome, String email, String senha, Integer id){
         this.email = email;
         this.nome = nome;
         this.senha = senha;
@@ -19,48 +38,8 @@ public class User {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getStreak() {
-        return streak;
-    }
-
     public void setStreak() {
         this.streak += 1;
-    }
-
-    public int getXp() {
-        return xp;
-    }
-
-    public void setXp(int xp) {
-        this.xp = xp;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
 }
