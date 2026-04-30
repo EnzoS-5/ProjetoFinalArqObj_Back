@@ -29,6 +29,9 @@ public class User {
     @JsonIgnore
     private String senha;
 
+    protected User() {
+    }
+
     public User(String nome, String email, String senha, Integer id){
         this.email = email;
         this.nome = nome;
@@ -38,8 +41,15 @@ public class User {
         this.id = id;
     }
 
-    public void setStreak() {
+    public void incrementarStreak() {
         this.streak += 1;
     }
 
+    public void resetarStreak() {
+        this.streak = 0;
+    }
+
+    public void adicionarXp(int valor) {
+        this.xp += valor;
+    }
 }
