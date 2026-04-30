@@ -19,8 +19,8 @@ public class Mascote {
     private Integer id;
 
 
-    @Column(nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
 
