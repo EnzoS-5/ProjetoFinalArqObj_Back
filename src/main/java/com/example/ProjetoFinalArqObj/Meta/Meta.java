@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.Habito;
+package com.example.ProjetoFinalArqObj.Meta;
 
 import com.example.ProjetoFinalArqObj.User.User;
 import jakarta.persistence.Column;
@@ -11,14 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-public class Habito {
+public class Meta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -37,18 +36,14 @@ public class Habito {
     private String descricao;
 
 
-    @Column(nullable = false)
-    private boolean registroDiario;
+    @Column(nullable = true)
+    private LocalDate dataLimite;
 
 
     @Column(nullable = false)
-    private int streakInterno;
+    private boolean concluido;
 
 
     @Column(nullable = false)
     private boolean ativo;
-
-
-    @UpdateTimestamp
-    private LocalDateTime dataAtualizacao;
 }

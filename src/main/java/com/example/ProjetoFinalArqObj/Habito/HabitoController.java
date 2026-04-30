@@ -13,15 +13,18 @@ public class HabitoController {
     @Autowired
     private HabitoService habitoService;
 
+
     @GetMapping("/{id}")
     public HabitoResponse findById(@PathVariable Integer id){
         return HabitoResponse.of(habitoService.buscarPorId(id));
     }
 
+
     @GetMapping
     public List<HabitoResponse> listarUsuarioLogado() {
         return habitoService.listarDoUsuarioLogado().stream().map(HabitoResponse::of).toList();
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -30,10 +33,12 @@ public class HabitoController {
         return HabitoResponse.of(habito);
     }
 
+
     @PatchMapping("/{id}/registro-diario")
     public HabitoResponse concluirRegistroDiario(@PathVariable Integer id) {
         return HabitoResponse.of(habitoService.marcarRegistroDiarioComoConcluido(id));
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -41,8 +46,10 @@ public class HabitoController {
         habitoService.deletarLogicamente(id);
     }
 
+
     public record CriarHabitoRequest(String titulo, String descricao) {
     }
+
 
     public record HabitoResponse(
             Integer id,

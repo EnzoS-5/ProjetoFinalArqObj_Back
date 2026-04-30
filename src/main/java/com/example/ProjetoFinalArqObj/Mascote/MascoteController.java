@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/mascote")
 public class MascoteController {
-
     @Autowired
     private MascoteService mascoteService;
 
@@ -20,6 +19,7 @@ public class MascoteController {
         //find user by id find mascote by user
         return null;
     }
+
 
     /*@PostMapping
     public Mascote saveDisciplina(@RequestBody SaveProfessorDTO professor) {

@@ -14,17 +14,19 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Mascote {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
 
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private User user;
 
+
     @Column(nullable = false)
     private int hp;
+
 
     @Column(nullable = false)
     private boolean check;
@@ -42,6 +44,4 @@ public class Mascote {
         return mascote;
 
     }
-
-
 }
