@@ -34,17 +34,12 @@ public class User {
     private String senha;
 
 
-    protected User() {
-    }
-
-
-    public User(String nome, String email, String senha, Integer id){
+    public User(String nome, String email, String senha){
         this.email = email;
         this.nome = nome;
         this.senha = senha;
         this.xp = 0;
         this.streak = 0;
-        this.id = id;
     }
 
 
