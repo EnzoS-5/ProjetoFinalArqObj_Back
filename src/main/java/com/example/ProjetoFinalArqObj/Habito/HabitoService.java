@@ -66,9 +66,12 @@ public class HabitoService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Hábito não encontrado."));
         validarDono(habito, usuarioLogado);
         if (!habito.isRegistroDiario()) {
+            boolean primeiroHabitoConcluidoNoDia = !habitoRepository.existsByUserAndAtivoTrueAndRegistroDiarioTrue(usuarioLogado);
             habito.setRegistroDiario(true);
             habito.setStreakInterno(habito.getStreakInterno() + 1);
-            usuarioLogado.incrementarStreak();
+            if (primeiroHabitoConcluidoNoDia) {
+                usuarioLogado.incrementarStreak();
+            }
             usuarioLogado.adicionarXp(10);
         }
         userRepository.save(usuarioLogado);
