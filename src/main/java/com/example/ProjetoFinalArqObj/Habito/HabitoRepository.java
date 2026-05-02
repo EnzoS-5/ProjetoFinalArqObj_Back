@@ -10,5 +10,6 @@ public interface HabitoRepository extends JpaRepository<Habito, Integer> {
     Optional<Habito> findByIdAndAtivoTrue(Integer id);
     List<Habito> findAllByUserAndAtivoTrue(User user);
     List<Habito> findAllByAtivoTrue();
+    boolean existsByUserAndAtivoTrueAndRegistroDiarioTrue(User user);
 }
 
