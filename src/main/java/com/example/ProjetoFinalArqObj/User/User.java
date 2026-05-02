@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "users")
 public class User {
     @Column(nullable = false)
     private String nome;
@@ -33,6 +34,8 @@ public class User {
     @JsonIgnore
     private String senha;
 
+
+    protected User() {}
 
     public User(String nome, String email, String senha){
         this.email = email;

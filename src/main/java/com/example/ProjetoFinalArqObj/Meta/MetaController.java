@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -15,28 +14,28 @@ public class MetaController {
 
 
     @GetMapping("/{id}")
-    public MetaResponse findById(@PathVariable Integer id) {
-        return MetaResponse.of(metaService.buscarPorId(id));
+    public MetaResponseDTO findById(@PathVariable Integer id) {
+        return MetaResponseDTO.of(metaService.buscarPorId(id));
     }
 
 
     @GetMapping
-    public List<MetaResponse> listarUsuarioLogado() {
-        return metaService.listarDoUsuarioLogado().stream().map(MetaResponse::of).toList();
+    public List<MetaResponseDTO> listarUsuarioLogado() {
+        return metaService.listarDoUsuarioLogado().stream().map(MetaResponseDTO::of).toList();
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MetaResponse criar(@RequestBody CriarMetaRequest request) {
+    public MetaResponseDTO criar(@RequestBody CriarMetaRequestDTO request) {
         Meta meta = metaService.criar(request.titulo(), request.descricao(), request.dataLimite());
-        return MetaResponse.of(meta);
+        return MetaResponseDTO.of(meta);
     }
 
 
     @PatchMapping("/{id}/concluido")
-    public MetaResponse concluirMeta(@PathVariable Integer id) {
-        return MetaResponse.of(metaService.marcarComoConcluido(id));
+    public MetaResponseDTO concluirMeta(@PathVariable Integer id) {
+        return MetaResponseDTO.of(metaService.marcarComoConcluido(id));
     }
 
 
@@ -44,32 +43,5 @@ public class MetaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Integer id) {
         metaService.deletarLogicamente(id);
-    }
-
-
-    public record CriarMetaRequest(String titulo, String descricao, LocalDate dataLimite) {
-    }
-
-
-    public record MetaResponse(
-            Integer id,
-            Integer userId,
-            String titulo,
-            String descricao,
-            LocalDate dataLimite,
-            boolean concluido,
-            boolean ativo
-    ) {
-        public static MetaResponse of(Meta meta) {
-            return new MetaResponse(
-                    meta.getId(),
-                    meta.getUser().getId(),
-                    meta.getTitulo(),
-                    meta.getDescricao(),
-                    meta.getDataLimite(),
-                    meta.isConcluido(),
-                    meta.isAtivo()
-            );
-        }
     }
 }

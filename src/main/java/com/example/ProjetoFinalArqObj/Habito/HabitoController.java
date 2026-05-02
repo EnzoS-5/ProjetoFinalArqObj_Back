@@ -15,28 +15,28 @@ public class HabitoController {
 
 
     @GetMapping("/{id}")
-    public HabitoResponse findById(@PathVariable Integer id){
-        return HabitoResponse.of(habitoService.buscarPorId(id));
+    public HabitoResponseDTO findById(@PathVariable Integer id){
+        return HabitoResponseDTO.of(habitoService.buscarPorId(id));
     }
 
 
     @GetMapping
-    public List<HabitoResponse> listarUsuarioLogado() {
-        return habitoService.listarDoUsuarioLogado().stream().map(HabitoResponse::of).toList();
+    public List<HabitoResponseDTO> listarUsuarioLogado() {
+        return habitoService.listarDoUsuarioLogado().stream().map(HabitoResponseDTO::of).toList();
     }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HabitoResponse criar(@RequestBody CriarHabitoRequest request) {
+    public HabitoResponseDTO criar(@RequestBody CriarHabitoRequestDTO request) {
         Habito habito = habitoService.criar(request.titulo(), request.descricao());
-        return HabitoResponse.of(habito);
+        return HabitoResponseDTO.of(habito);
     }
 
 
     @PatchMapping("/{id}/registro-diario")
-    public HabitoResponse concluirRegistroDiario(@PathVariable Integer id) {
-        return HabitoResponse.of(habitoService.marcarRegistroDiarioComoConcluido(id));
+    public HabitoResponseDTO concluirRegistroDiario(@PathVariable Integer id) {
+        return HabitoResponseDTO.of(habitoService.marcarRegistroDiarioComoConcluido(id));
     }
 
 
@@ -44,32 +44,5 @@ public class HabitoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Integer id) {
         habitoService.deletarLogicamente(id);
-    }
-
-
-    public record CriarHabitoRequest(String titulo, String descricao) {
-    }
-
-
-    public record HabitoResponse(
-            Integer id,
-            Integer userId,
-            String titulo,
-            String descricao,
-            boolean registroDiario,
-            int streakInterno,
-            boolean ativo
-    ) {
-        public static HabitoResponse of(Habito habito) {
-            return new HabitoResponse(
-                    habito.getId(),
-                    habito.getUser().getId(),
-                    habito.getTitulo(),
-                    habito.getDescricao(),
-                    habito.isRegistroDiario(),
-                    habito.getStreakInterno(),
-                    habito.isAtivo()
-            );
-        }
     }
 }

@@ -1,7 +1,10 @@
 package com.example.ProjetoFinalArqObj.User;
 
+import com.example.ProjetoFinalArqObj.Mascote.Mascote;
+import com.example.ProjetoFinalArqObj.Mascote.MascoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -15,6 +18,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MascoteRepository mascoteRepository;
+
     public User buscaPorId(Integer id){
         return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuário não encontrada."));
     }
@@ -23,6 +29,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public User criaUsuario(String nome, String email, String senha){
         if (nome == null || nome.isBlank()){
             throw new ResponseStatusException(BAD_REQUEST, "Nome é obrigatório.");
@@ -36,6 +43,14 @@ public class UserService {
 
         User user = new User(nome, email, senha);
         userRepository.save(user);
+
+        Mascote mascote = new Mascote();
+        mascote.setUser(user);
+        mascote.setHp(100);
+        mascote.setCheck(false);
+        mascote.setAtivo(true);
+        mascoteRepository.save(mascote);
+
         return user;
     }
 

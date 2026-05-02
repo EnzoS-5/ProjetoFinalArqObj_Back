@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,8 +22,8 @@ public class Plano {
 
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Habitos", nullable = false)
-    private Habito habito;
+    @JoinColumn(name = "Planos", nullable = false)
+    private List<Habito> habito;
 
 
 
