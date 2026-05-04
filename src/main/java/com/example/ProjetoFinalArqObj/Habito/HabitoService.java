@@ -66,11 +66,10 @@ public class HabitoService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Hábito não encontrado."));
         validarDono(habito, usuarioLogado);
         if (!habito.isRegistroDiario()) {
-            boolean primeiroHabitoConcluidoNoDia = !habitoRepository.existsByUserAndAtivoTrueAndRegistroDiarioTrue(usuarioLogado);
             habito.setRegistroDiario(true);
             habito.setStreakInterno(habito.getStreakInterno() + 1);
-            if (primeiroHabitoConcluidoNoDia) {
-                usuarioLogado.incrementarStreak();
+            if (usuarioLogado.podeAumentarStreakHoje()) {
+                usuarioLogado.incrementarStreakComData();
             }
             usuarioLogado.adicionarXp(10);
         }
@@ -87,6 +86,17 @@ public class HabitoService {
         validarDono(habito, usuarioLogado);
         habito.setAtivo(false);
         habitoRepository.save(habito);
+    }
+
+    @Transactional
+    public void resetarStreakSeRegistroDiarioFalso() {
+        List<Habito> habitosAtivos = habitoRepository.findAllByAtivoTrue();
+        for (Habito habito : habitosAtivos) {
+            if (!habito.isRegistroDiario()) {
+                habito.setStreakInterno(0);
+                habitoRepository.save(habito);
+            }
+        }
     }
 
 

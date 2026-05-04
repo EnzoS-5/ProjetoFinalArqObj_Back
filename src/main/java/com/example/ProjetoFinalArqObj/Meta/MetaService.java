@@ -67,6 +67,9 @@ public class MetaService {
         validarDono(meta, usuarioLogado);
         if (!meta.isConcluido()) {
             meta.setConcluido(true);
+            if (usuarioLogado.podeAumentarStreakHoje()) {
+                usuarioLogado.incrementarStreakComData();
+            }
             usuarioLogado.adicionarXp(50);
             userRepository.save(usuarioLogado);
         }
