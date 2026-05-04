@@ -77,6 +77,7 @@ public class MascoteService {
         mascote.setHp(hp == null ? 200 : hp);
         mascote.setCheck(check == null || check);
         mascote.setAtivo(true);
+        mascote.setLastVerifiedStreak(usuarioLogado.getStreak());
         return mascoteRepository.save(mascote);
     }
 
@@ -100,5 +101,19 @@ public class MascoteService {
         validarDono(mascote, usuarioLogado);
         mascote.setAtivo(false);
         mascoteRepository.save(mascote);
+    }
+
+    @Transactional
+    public void verificarEReduzirHPPorStreakNaoAtualizado() {
+        List<Mascote> mascotes = mascoteRepository.findAllByAtivoTrueAndCheckTrue();
+        for (Mascote mascote : mascotes) {
+            User user = mascote.getUser();
+            if (user.getStreak() <= mascote.getLastVerifiedStreak()) {
+                mascote.setHp(Math.max(0, mascote.getHp() - 10));
+                mascoteRepository.save(mascote);
+            }
+            mascote.setLastVerifiedStreak(user.getStreak());
+            mascoteRepository.save(mascote);
+        }
     }
 }

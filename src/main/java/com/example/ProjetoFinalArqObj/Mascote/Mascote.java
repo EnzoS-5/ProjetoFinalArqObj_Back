@@ -38,4 +38,7 @@ public class Mascote {
 
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
+
+    @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
+    private int lastVerifiedStreak;
 }
