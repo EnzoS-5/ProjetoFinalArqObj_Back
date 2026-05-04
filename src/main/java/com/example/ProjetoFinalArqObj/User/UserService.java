@@ -3,6 +3,7 @@ package com.example.ProjetoFinalArqObj.User;
 import com.example.ProjetoFinalArqObj.Mascote.Mascote;
 import com.example.ProjetoFinalArqObj.Mascote.MascoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,27 +22,31 @@ public class UserService {
     @Autowired
     private MascoteRepository mascoteRepository;
 
-    public User buscaPorId(Integer id){
-        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuário não encontrada."));
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User buscaPorId(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuario nao encontrado."));
     }
 
-    public List<User> listarUsuarios(){
+    public List<User> listarUsuarios() {
         return userRepository.findAll();
     }
 
     @Transactional
-    public User criaUsuario(String nome, String email, String senha){
-        if (nome == null || nome.isBlank()){
-            throw new ResponseStatusException(BAD_REQUEST, "Nome é obrigatório.");
+    public User criaUsuario(String nome, String email, String senha) {
+        if (nome == null || nome.isBlank()) {
+            throw new ResponseStatusException(BAD_REQUEST, "Nome e obrigatorio.");
         }
-        if (email == null || email.isBlank()){
-            throw new ResponseStatusException(BAD_REQUEST, "E-mail é obrigatório.");
+        if (email == null || email.isBlank()) {
+            throw new ResponseStatusException(BAD_REQUEST, "E-mail e obrigatorio.");
         }
-        if (senha == null || senha.isBlank()){
-            throw new ResponseStatusException(BAD_REQUEST, "Senha é obrigatório.");
+        if (senha == null || senha.isBlank()) {
+            throw new ResponseStatusException(BAD_REQUEST, "Senha e obrigatoria.");
         }
 
-        User user = new User(nome, email, senha);
+        User user = new User(nome.trim(), email.trim(), passwordEncoder.encode(senha));
         userRepository.save(user);
 
         Mascote mascote = new Mascote();
@@ -54,19 +59,28 @@ public class UserService {
         return user;
     }
 
-    public User edit(Integer id, String nome, String senha){
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuário não encontrada."));
+    @Transactional
+    public User edit(Integer id, String nome, String senha) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuario nao encontrado."));
 
-        user.setNome(nome);
-        user.setSenha(senha);
+        if (nome == null || nome.isBlank()) {
+            throw new ResponseStatusException(BAD_REQUEST, "Nome e obrigatorio.");
+        }
+        if (senha == null || senha.isBlank()) {
+            throw new ResponseStatusException(BAD_REQUEST, "Senha e obrigatoria.");
+        }
+
+        user.setNome(nome.trim());
+        user.setSenha(passwordEncoder.encode(senha));
 
         userRepository.save(user);
-
         return user;
     }
 
-    public List<User> delete(Integer id){
-        userRepository.delete(userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuário não encontrada.")));
+    public List<User> delete(Integer id) {
+        userRepository.delete(userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Usuario nao encontrado.")));
         return userRepository.findAll();
     }
 }

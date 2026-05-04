@@ -1,6 +1,7 @@
 package com.example.ProjetoFinalArqObj.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +14,28 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getUsers(){
-        return userService.listarUsuarios();
+    public List<UserResponseDTO> getUsers(){
+        return userService.listarUsuarios().stream().map(UserResponseDTO::of).toList();
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Integer id){
-        return userService.buscaPorId(id);
+    public UserResponseDTO getUser(@PathVariable Integer id){
+        return UserResponseDTO.of(userService.buscaPorId(id));
     }
 
     @PostMapping
-    public User saveUser(@RequestHeader String nome, @RequestHeader String email, @RequestHeader String senha){
-        return userService.criaUsuario(nome, email, senha);
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserResponseDTO saveUser(@RequestBody UserRequestDTO request){
+        return UserResponseDTO.of(userService.criaUsuario(request.nome(), request.email(), request.senha()));
     }
 
     @PutMapping("/{id}")
-    public User editUser(@PathVariable Integer id, @RequestHeader String nome, @RequestHeader String senha){
-        return userService.edit(id, nome, senha);
+    public UserResponseDTO editUser(@PathVariable Integer id, @RequestBody UserRequestDTO request){
+        return UserResponseDTO.of(userService.edit(id, request.nome(), request.senha()));
     }
 
     @DeleteMapping("/{id}")
-    public List<User> deleteUser(@PathVariable Integer id){
-        return userService.delete(id);
+    public List<UserResponseDTO> deleteUser(@PathVariable Integer id){
+        return userService.delete(id).stream().map(UserResponseDTO::of).toList();
     }
 }
