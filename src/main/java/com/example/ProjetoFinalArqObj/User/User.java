@@ -34,6 +34,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private int nivel;
 
     @JsonIgnore
     private String senha;
@@ -48,6 +50,7 @@ public class User {
         this.xp = 0;
         this.streak = 0;
         this.lastStreakDate = null;
+        this.nivel = 0;
     }
 
 
@@ -62,6 +65,10 @@ public class User {
 
 
     public void adicionarXp(int valor) {
+        int mult = this.streak/5;
+        if (mult > 0){
+            valor *= 2*mult;
+        }
         this.xp += valor;
     }
 
@@ -73,5 +80,10 @@ public class User {
     public void incrementarStreakComData() {
         this.streak += 1;
         this.lastStreakDate = LocalDate.now();
+    }
+
+    public int montarNivel(){
+        this.nivel = this.xp/1000;
+        return this.nivel;
     }
 }
