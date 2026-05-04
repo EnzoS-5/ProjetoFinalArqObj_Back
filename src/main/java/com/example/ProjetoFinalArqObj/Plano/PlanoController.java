@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,6 +36,11 @@ public class PlanoController {
     @ResponseStatus(HttpStatus.CREATED)
     public PlanoResponseDTO criar(@RequestBody CriarPlanoRequestDTO request) {
         return PlanoResponseDTO.of(planoService.criar(request.titulo(), request.descricao(), request.habitoIds()));
+    }
+
+    @PutMapping("/{id}")
+    public PlanoResponseDTO atualizar(@PathVariable Integer id, @RequestBody AtualizarPlanoRequestDTO request) {
+        return PlanoResponseDTO.of(planoService.atualizar(id, request.titulo(), request.descricao(), request.habitoIds()));
     }
 
     @PatchMapping("/{id}/concluido")
