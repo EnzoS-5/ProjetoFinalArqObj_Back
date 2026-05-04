@@ -72,15 +72,22 @@ public class PlanoService {
             throw new ResponseStatusException(BAD_REQUEST, "Titulo e obrigatorio.");
         }
 
-        Plano plano = new Plano();
-        plano.setUser(usuarioLogado);
-        plano.setTitulo(titulo.trim());
-        plano.setDescricao(descricao == null ? null : descricao.trim());
-        plano.setConcluido(false);
-        plano.setAtivo(true);
-        plano.setHabitos(resolverHabitosDoPlano(habitoIds, usuarioLogado));
+        List<Plano> planosUsuario = planoRepository.findAllByUserAndAtivoTrue(usuarioLogado);
 
-        return planoRepository.save(plano);
+        if (planosUsuario.size() < usuarioLogado.getMaxPlano()) {
+
+            Plano plano = new Plano();
+            plano.setUser(usuarioLogado);
+            plano.setTitulo(titulo.trim());
+            plano.setDescricao(descricao == null ? null : descricao.trim());
+            plano.setConcluido(false);
+            plano.setAtivo(true);
+            plano.setHabitos(resolverHabitosDoPlano(habitoIds, usuarioLogado));
+
+            return planoRepository.save(plano);
+        } else {
+            throw new ResponseStatusException(BAD_REQUEST, "Suba de nível para liberar mais planos!");
+        }
     }
 
     @Transactional

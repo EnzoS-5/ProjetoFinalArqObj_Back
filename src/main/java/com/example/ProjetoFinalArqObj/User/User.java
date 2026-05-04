@@ -19,6 +19,14 @@ public class User {
     @Column(nullable = false)
     private int xp;
 
+    @Column(nullable = false)
+    private int maxHabitos;
+
+    @Column(nullable = false)
+    private int maxPlano;
+
+    @Column(nullable = false)
+    private int maxMetas;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +59,17 @@ public class User {
         this.streak = 0;
         this.lastStreakDate = null;
         this.nivel = 0;
+        this.maxHabitos = 2;
+        this.maxMetas = 1;
+        this.maxPlano = 1;
+    }
+
+    public void aumentaStats(){
+        if (this.nivel >= 5){
+            this.maxHabitos += this.nivel-4;
+            this.maxMetas += this.nivel-4;
+            this.maxPlano += this.nivel-4;
+        }
     }
 
 
