@@ -1,7 +1,7 @@
 package com.example.ProjetoFinalArqObj.Ranking;
 
-import com.example.ProjetoFinalArqObj.Ranking.dto.RankingUsuarioDTO;
 import com.example.ProjetoFinalArqObj.Ranking.dto.RankingResponseDTO;
+import com.example.ProjetoFinalArqObj.Ranking.dto.RankingUsuarioDTO;
 import com.example.ProjetoFinalArqObj.User.User;
 import com.example.ProjetoFinalArqObj.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +57,14 @@ public class RankingService {
         throw new ResponseStatusException(UNAUTHORIZED, "Usuario logado nao encontrado no ranking.");
     }
 
-    private Ranking montarRanking(List<User> usuarios) {
-        Ranking ranking = new Ranking();
+    private List<RankingUsuarioDTO> montarRanking(List<User> usuarios) {
         List<RankingUsuarioDTO> usuariosRanking = new ArrayList<>();
 
         for (int i = 0; i < usuarios.size(); i++) {
             usuariosRanking.add(RankingUsuarioDTO.of(usuarios.get(i), i + 1));
         }
 
-        ranking.setUsuarios(usuariosRanking);
-        return ranking;
+        return usuariosRanking;
     }
 
     private User buscarUsuarioLogado() {

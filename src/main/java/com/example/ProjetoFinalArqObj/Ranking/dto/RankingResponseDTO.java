@@ -1,16 +1,15 @@
 package com.example.ProjetoFinalArqObj.Ranking.dto;
 
-import com.example.ProjetoFinalArqObj.Ranking.Ranking;
 import java.util.List;
 
 public record RankingResponseDTO(
         int totalUsuarios,
         List<RankingUsuarioDTO> usuarios
 ) {
-    public static RankingResponseDTO of(Ranking ranking) {
+    public static RankingResponseDTO of(List<RankingUsuarioDTO> usuarios) {
         return new RankingResponseDTO(
-                ranking.getUsuarios().size(),
-                ranking.getUsuarios()
+                usuarios.size(),
+                List.copyOf(usuarios)
         );
     }
 }
