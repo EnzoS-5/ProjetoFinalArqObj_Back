@@ -9,6 +9,7 @@ public record PlanoResponseDTO(
         String titulo,
         String descricao,
         List<Integer> habitoIds,
+        Integer metaId,
         boolean concluido,
         boolean ativo,
         LocalDateTime dataAtualizacao
@@ -20,6 +21,7 @@ public record PlanoResponseDTO(
                 plano.getTitulo(),
                 plano.getDescricao(),
                 plano.getHabitos() == null ? List.of() : plano.getHabitos().stream().map(habito -> habito.getId()).toList(),
+                plano.getMeta() == null ? null : plano.getMeta().getId(),
                 plano.isConcluido(),
                 plano.isAtivo(),
                 plano.getDataAtualizacao()

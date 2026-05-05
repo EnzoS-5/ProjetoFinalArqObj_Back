@@ -35,12 +35,12 @@ public class PlanoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PlanoResponseDTO criar(@RequestBody CriarPlanoRequestDTO request) {
-        return PlanoResponseDTO.of(planoService.criar(request.titulo(), request.descricao(), request.habitoIds()));
+        return PlanoResponseDTO.of(planoService.criar(request.titulo(), request.descricao(), request.habitoIds(), request.metaId()));
     }
 
     @PutMapping("/{id}")
     public PlanoResponseDTO atualizar(@PathVariable Integer id, @RequestBody AtualizarPlanoRequestDTO request) {
-        return PlanoResponseDTO.of(planoService.atualizar(id, request.titulo(), request.descricao(), request.habitoIds()));
+        return PlanoResponseDTO.of(planoService.atualizar(id, request.titulo(), request.descricao(), request.habitoIds(), request.metaId()));
     }
 
     @PatchMapping("/{id}/concluido")

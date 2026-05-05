@@ -1,5 +1,6 @@
 package com.example.ProjetoFinalArqObj.Habito;
 
+import com.example.ProjetoFinalArqObj.Notificacao.NotificacaoService;
 import com.example.ProjetoFinalArqObj.User.User;
 import com.example.ProjetoFinalArqObj.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -22,6 +24,9 @@ public class HabitoService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificacaoService notificacaoService;
 
 
     @Transactional(readOnly = true)
@@ -109,11 +114,13 @@ public class HabitoService {
     @Scheduled(cron = "0 0 6 * * *", zone = "America/Sao_Paulo")
     public void resetDiario() {
         List<Habito> habitosAtivos = habitoRepository.findAllByAtivoTrue();
+        LocalDate dataReferencia = LocalDate.now();
         for (Habito habito : habitosAtivos) {
             User usuario = habito.getUser();
             if (!habito.isRegistroDiario()) {
                 habito.setStreakInterno(0);
                 usuario.resetarStreak();
+                notificacaoService.criarNotificacaoStreakReset(usuario, habito, dataReferencia);
             }
             habito.setRegistroDiario(false);
             userRepository.save(usuario);

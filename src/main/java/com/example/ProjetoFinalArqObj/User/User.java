@@ -61,6 +61,7 @@ public class User {
         this.nivel = 0;
         this.maxMetas = 1;
         this.maxPlano = 1;
+        this.maxHabitos = 2;
     }
 
     public void aumentaStats(){

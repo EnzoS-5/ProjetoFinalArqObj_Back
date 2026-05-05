@@ -2,6 +2,8 @@ package com.example.ProjetoFinalArqObj.Plano;
 
 import com.example.ProjetoFinalArqObj.Habito.Habito;
 import com.example.ProjetoFinalArqObj.Habito.HabitoRepository;
+import com.example.ProjetoFinalArqObj.Meta.Meta;
+import com.example.ProjetoFinalArqObj.Meta.MetaRepository;
 import com.example.ProjetoFinalArqObj.User.User;
 import com.example.ProjetoFinalArqObj.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class PlanoService {
 
     @Autowired
     private HabitoRepository habitoRepository;
+
+    @Autowired
+    private MetaRepository metaRepository;
 
     private User buscarUsuarioLogado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,7 +70,7 @@ public class PlanoService {
     }
 
     @Transactional
-    public Plano criar(String titulo, String descricao, List<Integer> habitoIds) {
+    public Plano criar(String titulo, String descricao, List<Integer> habitoIds, Integer metaId) {
         User usuarioLogado = buscarUsuarioLogado();
 
         if (titulo == null || titulo.isBlank()) {
@@ -83,6 +88,7 @@ public class PlanoService {
             plano.setConcluido(false);
             plano.setAtivo(true);
             plano.setHabitos(resolverHabitosDoPlano(habitoIds, usuarioLogado));
+            plano.setMeta(resolverMetaDoPlano(metaId, usuarioLogado));
 
             return planoRepository.save(plano);
         } else {
@@ -91,7 +97,7 @@ public class PlanoService {
     }
 
     @Transactional
-    public Plano atualizar(Integer id, String titulo, String descricao, List<Integer> habitoIds) {
+    public Plano atualizar(Integer id, String titulo, String descricao, List<Integer> habitoIds, Integer metaId) {
         User usuarioLogado = buscarUsuarioLogado();
         Plano plano = planoRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Plano nao encontrado."));
@@ -104,6 +110,7 @@ public class PlanoService {
         plano.setTitulo(titulo.trim());
         plano.setDescricao(descricao == null ? null : descricao.trim());
         plano.setHabitos(resolverHabitosDoPlano(habitoIds, usuarioLogado));
+        plano.setMeta(resolverMetaDoPlano(metaId, usuarioLogado));
 
         return planoRepository.save(plano);
     }
@@ -156,5 +163,18 @@ public class PlanoService {
         }
 
         return habitos;
+    }
+
+    private Meta resolverMetaDoPlano(Integer metaId, User usuarioLogado) {
+        if (metaId == null) {
+            return null;
+        }
+
+        Meta meta = metaRepository.findByIdAndAtivoTrue(metaId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Meta nao encontrada."));
+        if (!meta.getUser().getId().equals(usuarioLogado.getId())) {
+            throw new ResponseStatusException(FORBIDDEN, "Sem acesso a esta meta.");
+        }
+        return meta;
     }
 }

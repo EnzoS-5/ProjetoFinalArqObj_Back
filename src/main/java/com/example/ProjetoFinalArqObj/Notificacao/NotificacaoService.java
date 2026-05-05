@@ -63,18 +63,16 @@ public class NotificacaoService {
         validarDono(habito, usuarioLogado);
 
         LocalDate data = dataReferencia == null ? LocalDate.now() : dataReferencia;
+        return criarInterno(usuarioLogado, habito, data);
+    }
 
-        if (notificacaoRepository.existsByUserAndHabitoAndDataReferenciaAndAtivoTrue(usuarioLogado, habito, data)) {
-            throw new ResponseStatusException(BAD_REQUEST, "Ja existe notificacao ativa para este habito nesta data.");
+    @Transactional
+    public Notificacao criarNotificacaoStreakReset(User usuario, Habito habito, LocalDate dataReferencia) {
+        if (usuario == null || habito == null) {
+            throw new ResponseStatusException(BAD_REQUEST, "Usuario e habito sao obrigatorios.");
         }
 
-        Notificacao notificacao = new Notificacao();
-        notificacao.setUser(usuarioLogado);
-        notificacao.setHabito(habito);
-        notificacao.setVisto(false);
-        notificacao.setDataReferencia(data);
-        notificacao.setAtivo(true);
-        return notificacaoRepository.save(notificacao);
+        return criarInterno(usuario, habito, dataReferencia == null ? LocalDate.now() : dataReferencia);
     }
 
     @Transactional
@@ -97,6 +95,29 @@ public class NotificacaoService {
         validarDono(notificacao, usuarioLogado);
         notificacao.setAtivo(false);
         notificacaoRepository.save(notificacao);
+    }
+
+    private Notificacao criarInterno(User usuario, Habito habito, LocalDate dataReferencia) {
+        if (notificacaoRepository.existsByUserAndHabitoAndDataReferenciaAndAtivoTrue(usuario, habito, dataReferencia)) {
+            return notificacaoRepository.findAllByUserAndAtivoTrueOrderByDataReferenciaDescDataCriacaoDesc(usuario)
+                    .stream()
+                    .filter(notificacao -> notificacao.getHabito().getId().equals(habito.getId()))
+                    .filter(notificacao -> dataReferencia.equals(notificacao.getDataReferencia()))
+                    .findFirst()
+                    .orElseGet(() -> salvarNovaNotificacao(usuario, habito, dataReferencia));
+        }
+
+        return salvarNovaNotificacao(usuario, habito, dataReferencia);
+    }
+
+    private Notificacao salvarNovaNotificacao(User usuario, Habito habito, LocalDate dataReferencia) {
+        Notificacao notificacao = new Notificacao();
+        notificacao.setUser(usuario);
+        notificacao.setHabito(habito);
+        notificacao.setVisto(false);
+        notificacao.setDataReferencia(dataReferencia);
+        notificacao.setAtivo(true);
+        return notificacaoRepository.save(notificacao);
     }
 
     private User buscarUsuarioLogado() {

@@ -1,6 +1,7 @@
 package com.example.ProjetoFinalArqObj.Plano;
 
 import com.example.ProjetoFinalArqObj.Habito.Habito;
+import com.example.ProjetoFinalArqObj.Meta.Meta;
 import com.example.ProjetoFinalArqObj.User.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,6 +31,10 @@ public class Plano {
             inverseJoinColumns = @JoinColumn(name = "habito_id")
     )
     private List<Habito> habitos = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "meta_id")
+    private Meta meta;
 
     @Column(nullable = false)
     private String titulo;
