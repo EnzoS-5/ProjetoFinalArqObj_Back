@@ -81,6 +81,7 @@ public class User {
 
     public void incrementarStreak() {
         this.streak += 1;
+
     }
 
 
