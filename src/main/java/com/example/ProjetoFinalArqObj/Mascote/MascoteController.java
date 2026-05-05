@@ -1,5 +1,8 @@
 package com.example.ProjetoFinalArqObj.Mascote;
 
+import com.example.ProjetoFinalArqObj.Mascote.dto.MascoteResponseDTO;
+import com.example.ProjetoFinalArqObj.Mascote.dto.CriarMascoteRequestDTO;
+import com.example.ProjetoFinalArqObj.Mascote.dto.AtualizarCheckRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Habito;
+package com.example.ProjetoFinalArqObj.Habito.dto;
 
+import com.example.ProjetoFinalArqObj.Habito.Habito;
 public record HabitoResponseDTO(
         Integer id,
         Integer userId,

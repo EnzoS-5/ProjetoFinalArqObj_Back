@@ -1,5 +1,6 @@
 package com.example.ProjetoFinalArqObj.Relatorio;
 
+import com.example.ProjetoFinalArqObj.Relatorio.dto.RelatorioResponseDTO;
 import com.example.ProjetoFinalArqObj.User.User;
 import com.example.ProjetoFinalArqObj.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

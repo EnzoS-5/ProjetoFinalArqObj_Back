@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.Notificacao;
+package com.example.ProjetoFinalArqObj.Notificacao.dto;
 
 import java.time.LocalDate;
 

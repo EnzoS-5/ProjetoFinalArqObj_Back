@@ -1,5 +1,8 @@
 package com.example.ProjetoFinalArqObj.Plano;
 
+import com.example.ProjetoFinalArqObj.Plano.dto.PlanoResponseDTO;
+import com.example.ProjetoFinalArqObj.Plano.dto.CriarPlanoRequestDTO;
+import com.example.ProjetoFinalArqObj.Plano.dto.AtualizarPlanoRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.Relatorio;
+package com.example.ProjetoFinalArqObj.Relatorio.dto;
 
 import com.example.ProjetoFinalArqObj.Habito.Habito;
 

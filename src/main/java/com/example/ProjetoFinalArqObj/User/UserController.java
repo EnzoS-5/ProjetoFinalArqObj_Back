@@ -1,5 +1,8 @@
 package com.example.ProjetoFinalArqObj.User;
 
+import com.example.ProjetoFinalArqObj.User.dto.UserResponseDTO;
+import com.example.ProjetoFinalArqObj.User.dto.CriarUserRequestDTO;
+import com.example.ProjetoFinalArqObj.User.dto.AtualizarUserRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

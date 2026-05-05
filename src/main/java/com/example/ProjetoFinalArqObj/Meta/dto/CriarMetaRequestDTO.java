@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.Meta;
+package com.example.ProjetoFinalArqObj.Meta.dto;
 
 import java.time.LocalDate;
 

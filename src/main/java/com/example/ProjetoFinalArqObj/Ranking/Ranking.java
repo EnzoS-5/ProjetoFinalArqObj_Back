@@ -1,5 +1,6 @@
 package com.example.ProjetoFinalArqObj.Ranking;
 
+import com.example.ProjetoFinalArqObj.Ranking.dto.RankingUsuarioDTO;
 import lombok.Getter;
 import lombok.Setter;
 

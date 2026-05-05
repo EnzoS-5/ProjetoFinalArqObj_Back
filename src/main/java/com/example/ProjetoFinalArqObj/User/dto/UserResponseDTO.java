@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.User;
+package com.example.ProjetoFinalArqObj.User.dto;
 
+import com.example.ProjetoFinalArqObj.User.User;
 public record UserResponseDTO(
         Integer id,
         String nome,

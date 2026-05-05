@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Ranking;
+package com.example.ProjetoFinalArqObj.Ranking.dto;
 
+import com.example.ProjetoFinalArqObj.Ranking.Ranking;
 import java.util.List;
 
 public record RankingResponseDTO(

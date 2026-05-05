@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Mascote;
+package com.example.ProjetoFinalArqObj.Mascote.dto;
 
+import com.example.ProjetoFinalArqObj.Mascote.Mascote;
 public record MascoteResponseDTO(
         Integer id,
         Integer userId,

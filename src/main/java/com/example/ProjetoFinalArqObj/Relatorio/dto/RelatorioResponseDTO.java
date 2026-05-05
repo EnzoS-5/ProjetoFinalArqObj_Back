@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Relatorio;
+package com.example.ProjetoFinalArqObj.Relatorio.dto;
 
+import com.example.ProjetoFinalArqObj.Relatorio.Relatorio;
 import java.time.LocalDateTime;
 import java.util.List;
 

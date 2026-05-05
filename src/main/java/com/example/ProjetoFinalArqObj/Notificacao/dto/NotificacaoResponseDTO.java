@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Notificacao;
+package com.example.ProjetoFinalArqObj.Notificacao.dto;
 
+import com.example.ProjetoFinalArqObj.Notificacao.Notificacao;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

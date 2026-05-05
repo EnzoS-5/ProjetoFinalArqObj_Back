@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.Ranking;
+package com.example.ProjetoFinalArqObj.Ranking.dto;
 
 import com.example.ProjetoFinalArqObj.User.User;
 

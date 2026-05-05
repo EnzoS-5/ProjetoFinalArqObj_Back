@@ -1,5 +1,7 @@
 package com.example.ProjetoFinalArqObj.Ranking;
 
+import com.example.ProjetoFinalArqObj.Ranking.dto.RankingUsuarioDTO;
+import com.example.ProjetoFinalArqObj.Ranking.dto.RankingResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,5 +1,7 @@
 package com.example.ProjetoFinalArqObj.Meta;
 
+import com.example.ProjetoFinalArqObj.Meta.dto.MetaResponseDTO;
+import com.example.ProjetoFinalArqObj.Meta.dto.CriarMetaRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

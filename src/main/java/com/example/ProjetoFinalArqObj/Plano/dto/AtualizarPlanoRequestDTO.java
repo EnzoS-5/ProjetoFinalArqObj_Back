@@ -1,8 +1,8 @@
-package com.example.ProjetoFinalArqObj.Plano;
+package com.example.ProjetoFinalArqObj.Plano.dto;
 
 import java.util.List;
 
-public record CriarPlanoRequestDTO(
+public record AtualizarPlanoRequestDTO(
         String titulo,
         String descricao,
         List<Integer> habitoIds,

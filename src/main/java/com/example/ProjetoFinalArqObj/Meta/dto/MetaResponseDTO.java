@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Meta;
+package com.example.ProjetoFinalArqObj.Meta.dto;
 
+import com.example.ProjetoFinalArqObj.Meta.Meta;
 import java.time.LocalDate;
 
 public record MetaResponseDTO(

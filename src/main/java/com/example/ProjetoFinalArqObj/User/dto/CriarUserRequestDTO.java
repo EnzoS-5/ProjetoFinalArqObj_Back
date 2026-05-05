@@ -1,4 +1,4 @@
-package com.example.ProjetoFinalArqObj.User;
+package com.example.ProjetoFinalArqObj.User.dto;
 
 public record CriarUserRequestDTO(
         String nome,

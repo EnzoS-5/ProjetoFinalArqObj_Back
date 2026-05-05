@@ -1,6 +1,7 @@
 package com.example.ProjetoFinalArqObj.Habito;
 
-
+import com.example.ProjetoFinalArqObj.Habito.dto.HabitoResponseDTO;
+import com.example.ProjetoFinalArqObj.Habito.dto.CriarHabitoRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

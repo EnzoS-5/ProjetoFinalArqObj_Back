@@ -1,5 +1,6 @@
-package com.example.ProjetoFinalArqObj.Plano;
+package com.example.ProjetoFinalArqObj.Plano.dto;
 
+import com.example.ProjetoFinalArqObj.Plano.Plano;
 import java.time.LocalDateTime;
 import java.util.List;
 
