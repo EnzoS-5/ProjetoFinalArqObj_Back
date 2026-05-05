@@ -4,9 +4,12 @@ Backend de uma aplicação de acompanhamento de hábitos, metas, planos e progre
 
 ## Link do deploy
 
-```text
-https://projeto-final-arq-obj-front.vercel.app
+> Link deploy
 
+Exemplo:
+
+```text
+https://deploy
 ```
 
 ## Organização do projeto
