@@ -37,3 +37,4 @@ data/
 *.mv.db
 *.trace.db
 *.lock.db
+*.db

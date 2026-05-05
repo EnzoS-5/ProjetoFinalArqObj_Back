@@ -59,16 +59,15 @@ public class User {
         this.streak = 0;
         this.lastStreakDate = null;
         this.nivel = 0;
-        this.maxHabitos = 2;
         this.maxMetas = 1;
         this.maxPlano = 1;
     }
 
     public void aumentaStats(){
         if (this.nivel >= 5){
-            this.maxHabitos += this.nivel-4;
-            this.maxMetas += this.nivel-4;
-            this.maxPlano += this.nivel-4;
+            this.maxHabitos = 2+ this.nivel/5;
+            this.maxMetas = 1+ this.nivel/5;
+            this.maxPlano = 1+ this.nivel/5;
         }
     }
 
