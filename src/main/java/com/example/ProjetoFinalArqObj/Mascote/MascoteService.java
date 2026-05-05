@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -74,8 +75,8 @@ public class MascoteService {
 
         Mascote mascote = mascoteExistente == null ? new Mascote() : mascoteExistente;
         mascote.setUser(usuarioLogado);
-        mascote.setHp(hp == null ? 200 : hp);
-        mascote.setCheck(check == null || check);
+        mascote.setHp(hp == null ? 100 : hp);
+        mascote.setCheck(check != null && check);
         mascote.setAtivo(true);
         mascote.setLastVerifiedStreak(usuarioLogado.getStreak());
         return mascoteRepository.save(mascote);
@@ -104,13 +105,14 @@ public class MascoteService {
     }
 
     @Transactional
-    public void verificarEReduzirHPPorStreakNaoAtualizado() {
-        List<Mascote> mascotes = mascoteRepository.findAllByAtivoTrueAndCheckTrue();
+    public void verificarEReduzirHPPorStreakNaoAtualizado(LocalDate dataReferencia) {
+        LocalDate dataVerificacao = dataReferencia == null ? LocalDate.now() : dataReferencia;
+        List<Mascote> mascotes = mascoteRepository.findAllByAtivoTrue();
         for (Mascote mascote : mascotes) {
             User user = mascote.getUser();
-            if (user.getStreak() <= mascote.getLastVerifiedStreak()) {
+            boolean streakEvoluiuNaData = dataVerificacao.equals(user.getLastStreakDate());
+            if (!streakEvoluiuNaData) {
                 mascote.setHp(Math.max(0, mascote.getHp() - 10));
-                mascoteRepository.save(mascote);
             }
             mascote.setLastVerifiedStreak(user.getStreak());
             mascoteRepository.save(mascote);

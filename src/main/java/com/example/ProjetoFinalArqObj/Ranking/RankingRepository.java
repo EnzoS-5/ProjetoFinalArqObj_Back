@@ -10,12 +10,14 @@ import java.util.List;
 
 @Repository
 public class RankingRepository {
+    private static final String ADMIN_EMAIL = "admin";
 
     @Autowired
     private UserRepository userRepository;
 
     public List<User> listarUsuariosOrdenados() {
-        return userRepository.findAll(
+        return userRepository.findAllByAtivoTrueAndEmailNot(
+                ADMIN_EMAIL,
                 Sort.by(
                         Sort.Order.desc("xp"),
                         Sort.Order.desc("streak"),

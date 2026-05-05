@@ -12,5 +12,4 @@ public interface MascoteRepository extends JpaRepository<Mascote, Integer> {
     Optional<Mascote> findByUserAndAtivoTrue(User user);
     List<Mascote> findAllByUserAndAtivoTrue(User user);
     List<Mascote> findAllByAtivoTrue();
-    List<Mascote> findAllByAtivoTrueAndCheckTrue();
 }

@@ -35,7 +35,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public List<UserResponseDTO> deleteUser(@PathVariable Integer id){
-        return userService.delete(id).stream().map(UserResponseDTO::of).toList();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Integer id){
+        userService.delete(id);
     }
 }

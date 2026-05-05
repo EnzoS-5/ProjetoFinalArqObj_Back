@@ -4,7 +4,6 @@ import com.example.ProjetoFinalArqObj.Notificacao.NotificacaoService;
 import com.example.ProjetoFinalArqObj.User.User;
 import com.example.ProjetoFinalArqObj.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -99,28 +98,15 @@ public class HabitoService {
     }
 
     @Transactional
-    public void resetarStreakSeRegistroDiarioFalso() {
+    public void resetDiario(LocalDate dataReferencia) {
         List<Habito> habitosAtivos = habitoRepository.findAllByAtivoTrue();
-        for (Habito habito : habitosAtivos) {
-            if (!habito.isRegistroDiario()) {
-                habito.setStreakInterno(0);
-                habitoRepository.save(habito);
-            }
-        }
-    }
-
-
-    @Transactional
-    @Scheduled(cron = "0 0 6 * * *", zone = "America/Sao_Paulo")
-    public void resetDiario() {
-        List<Habito> habitosAtivos = habitoRepository.findAllByAtivoTrue();
-        LocalDate dataReferencia = LocalDate.now();
+        LocalDate dataNotificacao = dataReferencia == null ? LocalDate.now() : dataReferencia;
         for (Habito habito : habitosAtivos) {
             User usuario = habito.getUser();
             if (!habito.isRegistroDiario()) {
                 habito.setStreakInterno(0);
                 usuario.resetarStreak();
-                notificacaoService.criarNotificacaoStreakReset(usuario, habito, dataReferencia);
+                notificacaoService.criarNotificacaoStreakReset(usuario, habito, dataNotificacao);
             }
             habito.setRegistroDiario(false);
             userRepository.save(usuario);

@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 public class User {
+    private static final ZoneId SAO_PAULO_ZONE = ZoneId.of("America/Sao_Paulo");
+
     @Column(nullable = false)
     private String nome;
 
@@ -45,6 +48,9 @@ public class User {
     @Column(nullable = false)
     private int nivel;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean ativo;
+
     @JsonIgnore
     private String senha;
 
@@ -59,17 +65,17 @@ public class User {
         this.streak = 0;
         this.lastStreakDate = null;
         this.nivel = 0;
+        this.ativo = true;
         this.maxMetas = 1;
         this.maxPlano = 1;
         this.maxHabitos = 2;
     }
 
     public void aumentaStats(){
-        if (this.nivel >= 5){
-            this.maxHabitos = 2+ this.nivel/5;
-            this.maxMetas = 1+ this.nivel/5;
-            this.maxPlano = 1+ this.nivel/5;
-        }
+        int bonus = this.nivel / 5;
+        this.maxHabitos = 2 + bonus;
+        this.maxMetas = 1 + bonus;
+        this.maxPlano = 1 + bonus;
     }
 
 
@@ -89,20 +95,25 @@ public class User {
             valor *= 2*mult;
         }
         this.xp += valor;
+        atualizarNivelELimites();
     }
 
     public boolean podeAumentarStreakHoje() {
-        LocalDate hoje = LocalDate.now();
+        LocalDate hoje = LocalDate.now(SAO_PAULO_ZONE);
         return lastStreakDate == null || !lastStreakDate.equals(hoje);
     }
 
     public void incrementarStreakComData() {
         this.streak += 1;
-        this.lastStreakDate = LocalDate.now();
+        this.lastStreakDate = LocalDate.now(SAO_PAULO_ZONE);
     }
 
     public int montarNivel(){
-        this.nivel = this.xp/1000;
-        return this.nivel;
+        return this.xp / 1000;
+    }
+
+    private void atualizarNivelELimites() {
+        this.nivel = montarNivel();
+        aumentaStats();
     }
 }
