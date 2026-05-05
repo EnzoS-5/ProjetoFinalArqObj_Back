@@ -48,14 +48,19 @@ public class MetaService {
         }
         User usuarioLogado = buscarUsuarioLogado();
 
-        Meta meta = new Meta();
-        meta.setUser(usuarioLogado);
-        meta.setTitulo(titulo.trim());
-        meta.setDescricao(descricao == null ? null : descricao.trim());
-        meta.setDataLimite(dataLimite);
-        meta.setConcluido(false);
-        meta.setAtivo(true);
-        return metaRepository.save(meta);
+        List<Meta> metasUsuario = metaRepository.findAllByUserAndAtivoTrue(usuarioLogado);
+        if (metasUsuario.size() < usuarioLogado.getMaxMetas()) {
+            Meta meta = new Meta();
+            meta.setUser(usuarioLogado);
+            meta.setTitulo(titulo.trim());
+            meta.setDescricao(descricao == null ? null : descricao.trim());
+            meta.setDataLimite(dataLimite);
+            meta.setConcluido(false);
+            meta.setAtivo(true);
+            return metaRepository.save(meta);
+        } else {
+            throw new ResponseStatusException(BAD_REQUEST, "Suba de nível para liberar mais metas!");
+        }
     }
 
 

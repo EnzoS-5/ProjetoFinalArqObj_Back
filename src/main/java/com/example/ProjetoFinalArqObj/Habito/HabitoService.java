@@ -48,14 +48,19 @@ public class HabitoService {
         }
         User usuarioLogado = buscarUsuarioLogado();
 
-        Habito habito = new Habito();
-        habito.setUser(usuarioLogado);
-        habito.setTitulo(titulo.trim());
-        habito.setDescricao(descricao == null ? null : descricao.trim());
-        habito.setRegistroDiario(false);
-        habito.setStreakInterno(0);
-        habito.setAtivo(true);
-        return habitoRepository.save(habito);
+        List<Habito> habitosUsuario = habitoRepository.findAllByUserAndAtivoTrue(usuarioLogado);
+        if (habitosUsuario.size() < usuarioLogado.getMaxHabitos()) {
+            Habito habito = new Habito();
+            habito.setUser(usuarioLogado);
+            habito.setTitulo(titulo.trim());
+            habito.setDescricao(descricao == null ? null : descricao.trim());
+            habito.setRegistroDiario(false);
+            habito.setStreakInterno(0);
+            habito.setAtivo(true);
+            return habitoRepository.save(habito);
+        } else {
+            throw new ResponseStatusException(BAD_REQUEST, "Suba de nível para liberar mais hábitos!");
+        }
     }
 
 
