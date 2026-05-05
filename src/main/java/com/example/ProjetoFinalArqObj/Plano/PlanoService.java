@@ -124,6 +124,11 @@ public class PlanoService {
 
         if (!plano.isConcluido()) {
             plano.setConcluido(true);
+            if (usuarioLogado.podeAumentarStreakHoje()) {
+                usuarioLogado.incrementarStreakComData();
+            }
+            usuarioLogado.adicionarXp(50);
+            userRepository.save(usuarioLogado);
         }
 
         return planoRepository.save(plano);
